@@ -2,6 +2,7 @@ import express from "express";
 import addressFeature from "./src/address";
 import accountFeature from "./src/account";
 import productFeature from "./src/product";
+import orderFeature from "./src/order";
 
 // SETUP SERVER CONFIG VARIABLES FROM CONFIG FILE (.env)
 const port = 9000;
@@ -17,6 +18,7 @@ const apiFeatures: express.Router[] = [
   addressFeature,
   accountFeature,
   productFeature,
+  orderFeature,
 ];
 
 // Use feature function. Includes all routes from feature Router to the app

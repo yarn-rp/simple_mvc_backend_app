@@ -12,7 +12,7 @@ import { Product } from "../../product/model";
 @Entity()
 export class OrderLineItem {
   @PrimaryGeneratedColumn()
-  public orderLineItemId!: number;
+  public orderLineItemId!: string;
 
   @Column()
   public quantity: number;
@@ -21,10 +21,10 @@ export class OrderLineItem {
   public price: number;
 
   @Column()
-  public productId!: number;
+  public productId!: string;
 
   @Column()
-  public orderId!: number;
+  public orderId!: string;
 
   @ManyToOne(() => Product, (product) => product.orderLineItems)
   public product!: Product;

@@ -22,7 +22,7 @@ class AddressController {
     try {
       const take = (req.query?.take ?? 10) as number | undefined;
       const skip = req.query?.skip as number | undefined;
-      const addresses = datasource.manager.find(Address, {
+      const addresses = await datasource.manager.find(Address, {
         skip: skip,
         take: take,
       });

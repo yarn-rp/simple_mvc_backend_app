@@ -1,7 +1,7 @@
 import { body } from "express-validator";
-import PaginationParamsValidator from "../../../core/validator/paginationParams";
+import Validator from "../../../core/validator";
 
-class AccountValidator extends PaginationParamsValidator {
+class AccountValidator extends Validator {
   validateNewAccount() {
     return [
       body("name")

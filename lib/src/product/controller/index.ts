@@ -22,7 +22,7 @@ class ProductController {
       const take = (req.query?.take ?? 10) as number | undefined;
       const skip = req.query?.skip as number | undefined;
 
-      const products = datasource.manager.find(Product, {
+      const products = await datasource.manager.find(Product, {
         skip: skip,
         take: take,
       });

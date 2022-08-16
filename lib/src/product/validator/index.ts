@@ -1,7 +1,7 @@
 import { body } from "express-validator";
-import PaginationParamsValidator from "../../../core/validator/paginationParams";
+import Validator from "../../../core/validator";
 
-class ProductValidator extends PaginationParamsValidator {
+class ProductValidator extends Validator {
   validateNewProduct() {
     return [
       body("name").notEmpty().withMessage("The name can't be null").isString(),

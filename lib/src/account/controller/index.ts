@@ -37,11 +37,28 @@ class AccountController {
       const take = (req.query?.take ?? 10) as number | undefined;
       const skip = req.query?.skip as number | undefined;
 
-      const accounts = datasource.manager.find(Account, {
+      const accounts = await datasource.manager.find(Account, {
         skip: skip,
         take: take,
       });
       return res.json(accounts);
+    } catch (e) {
+      return res.json({
+        msg: `There was an error fetching the address: ${e}`,
+        status: 500,
+      });
+    }
+  }
+  async getAccountById(req: Request, res: Response) {
+    try {
+      const accountId = (req.params?.id);
+      const account = await datasource.manager.findOne(Account, {
+        where: {
+          id: accountId,
+        },
+      });
+      
+      return res.json({...account,...account?.address});
     } catch (e) {
       return res.json({
         msg: `There was an error fetching the address: ${e}`,

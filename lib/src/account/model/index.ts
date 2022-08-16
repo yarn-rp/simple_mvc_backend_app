@@ -4,13 +4,16 @@ import { Address } from "../../address/model";
 @Entity()
 export class Account {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column()
   name: string;
 
   @Column()
   phone: string;
+
+  @Column()
+  public addressId!: string;
 
   @ManyToOne((type) => Address, { cascade: true,nullable: false })
   address: Address;

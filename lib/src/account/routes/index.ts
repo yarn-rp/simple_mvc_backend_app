@@ -18,5 +18,11 @@ router.get(
   MiddlewareValidator.handleValidationError,
   AccountController.getAccounts
 );
+router.get(
+  "/account/:id",
+  AccountValidator.validateIdParams(),
+  MiddlewareValidator.handleValidationError,
+  AccountController.getAccountById
+);
 
 export default router;

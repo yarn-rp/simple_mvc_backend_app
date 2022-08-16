@@ -1,7 +1,7 @@
 import { body, validationResult } from "express-validator";
-import PaginationParamsValidator from "../../../core/validator/paginationParams";
+import Validator from "../../../core/validator";
 
-class AddressValidator extends PaginationParamsValidator {
+class AddressValidator extends Validator {
   validateNewAddress() {
     return [
       body("street")
