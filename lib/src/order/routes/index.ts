@@ -7,16 +7,23 @@ import OrderController from "../controller";
 const router = express.Router();
 
 router.post(
-  "/order",
+  "/orders",
   OrderValidator.validateNewOrder(),
   MiddlewareValidator.handleValidationError,
   OrderController.createOrder
 );
 router.get(
-  "/order",
+  "/orders",
   OrderValidator.validatePaginationParams(),
   MiddlewareValidator.handleValidationError,
   OrderController.getOrders
+);
+
+router.get(
+  "/orders/:id",
+  OrderValidator.validateIdParams(),
+  MiddlewareValidator.handleValidationError,
+  OrderController.getOrderById
 );
 
 export default router;

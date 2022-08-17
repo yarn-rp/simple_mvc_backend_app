@@ -49,16 +49,24 @@ class AccountController {
       });
     }
   }
+  
   async getAccountById(req: Request, res: Response) {
     try {
-      const accountId = (req.params?.id);
+      const accountId = req.params?.id;
       const account = await datasource.manager.findOne(Account, {
         where: {
           id: accountId,
         },
       });
-      
-      return res.json({...account,...account?.address});
+      if (account != null) {
+        const address = account?.address;
+        return res.json({ ...account, address });
+      } else {
+        return res.json({
+          msg: "Account doesn't exist",
+          status: 404,
+        });
+      }
     } catch (e) {
       return res.json({
         msg: `There was an error fetching the address: ${e}`,

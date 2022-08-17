@@ -92,6 +92,49 @@ class OrderController {
       });
     }
   }
+
+  async getOrderById(req: Request, res: Response) {
+    try {
+      const id = req.params?.id;
+      // Select a user and all their watchers
+      const query = datasource.manager
+        .createQueryBuilder(Order, "o")
+        .where(`o.id = ${id}`)
+        .innerJoinAndSelect("o.orderLineItems", "order")
+        .innerJoinAndSelect("o.shippingAddress", "address")
+        .innerJoinAndSelect("o.customer", "account")
+        
+        // .andWhere('o.callerId = :id', {id})
+        // .where(`o.id = ${orderId}`, )
+        // .where("o.id != :id", { orderId });
+      const order = await query.getOne();
+
+      if (order != null) {
+        await Promise.all(
+          order.orderLineItems.map(
+            async (e) =>
+              (e.product = await datasource.manager.findOneOrFail(Product, {
+                where: {
+                  id: e.productId,
+                },
+              }))
+          )
+        );
+
+        return res.json({ ...order });
+      } else {
+        return res.json({
+          msg: "Order doesn't exist",
+          status: 404,
+        });
+      }
+    } catch (e) {
+      return res.json({
+        msg: `There was an error fetching the address: ${e}`,
+        status: 500,
+      });
+    }
+  }
 }
 
 export default new OrderController();

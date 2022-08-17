@@ -31,6 +31,6 @@ export class Order {
   @Column()
   total: number;
 
-  @OneToMany(() => OrderLineItem, (OrderLineItem) => OrderLineItem.order)
+  @OneToMany(() => OrderLineItem, (orderLineItem) => orderLineItem.order)
   public orderLineItems!: OrderLineItem[];
 }
