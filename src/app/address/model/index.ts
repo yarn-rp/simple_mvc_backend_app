@@ -15,5 +15,5 @@ export class Address {
   state: string;
 
   @Column()
-  zip_code: number;
+  zipCode: number;
 }

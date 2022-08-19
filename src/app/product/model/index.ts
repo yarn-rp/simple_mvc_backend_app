@@ -12,10 +12,10 @@ export class Product {
   price: number;
 
   @Column()
-  amount_on_stock: number;
+  amountOnStock: number;
 
   @Column()
-  image_url: string;
+  imageUrl: string;
 
   @OneToMany(() => OrderLineItem, (OrderLineItem) => OrderLineItem.product)
   public orderLineItems!: OrderLineItem[];

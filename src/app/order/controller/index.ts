@@ -3,6 +3,8 @@ import { Order } from "../model";
 import datasource from "../../../core/database";
 import { Product } from "../../product/model";
 import { OrderLineItem } from "../../order-line-item/model";
+import { Account } from "../../account/model";
+import { Address } from "../../address/model";
 
 const TAXES_RATE = 7;
 
@@ -29,13 +31,29 @@ class OrderController {
       const taxes = (TAXES_RATE / 100) * subtotal;
       const total = subtotal + taxes;
 
+      const customerId = req.body.customerId;
+      const customer = await datasource.manager.findOne(Account, {
+        where: {
+          id: customerId,
+        },
+      });
+
+      const shippingAddressId = req.body.shippingAddressId;
+      const shippingAddress = await datasource.manager.findOne(Address, {
+        where: {
+          id: shippingAddressId,
+        },
+      });
+
       const entity = datasource.manager.create<Order>(Order, {
         ...req.body,
-        ...{
-          subtotal: subtotal,
-          taxes: taxes,
-          total: total,
-        },
+        shippingAddress: shippingAddress,
+        shippingAddressId: shippingAddressId,
+        customer: customer,
+        customerId: customerId,
+        subtotal: subtotal,
+        taxes: taxes,
+        total: total,
       });
       var record = await datasource.manager.save(entity);
       try {
@@ -102,11 +120,11 @@ class OrderController {
         .where(`o.id = ${id}`)
         .innerJoinAndSelect("o.orderLineItems", "order")
         .innerJoinAndSelect("o.shippingAddress", "address")
-        .innerJoinAndSelect("o.customer", "account")
-        
-        // .andWhere('o.callerId = :id', {id})
-        // .where(`o.id = ${orderId}`, )
-        // .where("o.id != :id", { orderId });
+        .innerJoinAndSelect("o.customer", "account");
+
+      // .andWhere('o.callerId = :id', {id})
+      // .where(`o.id = ${orderId}`, )
+      // .where("o.id != :id", { orderId });
       const order = await query.getOne();
 
       if (order != null) {

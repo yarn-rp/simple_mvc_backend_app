@@ -15,6 +15,9 @@ export class Account {
   @Column()
   public addressId!: string;
 
+  @Column()
+  public imageUrl: string;
+
   @ManyToOne((type) => Address, { cascade: true,nullable: false })
   address: Address;
 }

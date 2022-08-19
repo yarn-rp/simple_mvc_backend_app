@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { Like } from "typeorm/find-options/operator/Like";
 
 import datasource from "../../../core/database";
 import { Address } from "../../address/model";
@@ -36,10 +37,14 @@ class AccountController {
     try {
       const take = (req.query?.take ?? 10) as number | undefined;
       const skip = req.query?.skip as number | undefined;
+      const query = req.query?.q ?? "";
 
       const accounts = await datasource.manager.find(Account, {
         skip: skip,
         take: take,
+        where : {
+          name: Like(`%${query}%`)
+        }
       });
       return res.json(accounts);
     } catch (e) {

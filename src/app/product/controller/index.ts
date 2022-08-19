@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Product } from "../model";
 import datasource from "../../../core/database";
+import { Like } from "typeorm/find-options/operator/Like";
 
 class ProductController {
   async createProduct(req: Request, res: Response) {
@@ -21,10 +22,13 @@ class ProductController {
     try {
       const take = (req.query?.take ?? 10) as number | undefined;
       const skip = req.query?.skip as number | undefined;
-
+      const query = req.query?.q ?? "";
       const products = await datasource.manager.find(Product, {
         skip: skip,
         take: take,
+        where : {
+          name: Like(`%${query}%`)
+        }
       });
       return res.json(products);
     } catch (e) {

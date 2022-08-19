@@ -1,15 +1,26 @@
 import express from "express";
-import addressFeature from "./src/address";
-import accountFeature from "./src/account";
-import productFeature from "./src/product";
-import orderFeature from "./src/order";
+import addressFeature from "./app/address";
+import accountFeature from "./app/account";
+import productFeature from "./app/product";
+import orderFeature from "./app/order";
+import cors from 'cors';
 
-// SETUP SERVER CONFIG VARIABLES FROM CONFIG FILE (.env)
+
+
+//TODO: SETUP SERVER CONFIG VARIABLES FROM CONFIG FILE (.env)
 const port = 9000;
 const apiVersion = "v1";
 const apiBaseURL = `/api/${apiVersion}`;
 
 const app = express();
+// Add a list of allowed origins.
+// If you have more origins you would like to add, you can add them to the array below.
+const allowedOrigins = ['http://localhost:'];
+
+const options: cors.CorsOptions = {
+  // origin: allowedOrigins
+};
+app.use(cors(options));
 
 app.use(express.json());
 
